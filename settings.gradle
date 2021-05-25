@@ -1,0 +1,7 @@
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "DexOpener"
+include ':app'
+include ':mylibrary'
+include ':common'

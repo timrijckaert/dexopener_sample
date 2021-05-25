@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.example.dexopener"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        // Play around with the 2 testInstrumentationRunner options to see how it affects the ability to mock final classes on different API levels.
+
+        // DexOpener's test runner
+        testInstrumentationRunner "com.example.dexopener.DexOpeningTestRunner"
+
+        // Default test runner
+        // testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    debugImplementation libs.androidx.fragment.testing
+    implementation projects.mylibrary
+    implementation libs.kotlin.stdlib
+    implementation libs.bundles.androidx
+    implementation libs.material
+
+    testImplementation libs.junit
+
+    androidTestImplementation projects.common
+    androidTestImplementation libs.androidx.test
+    androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.mockk
+}
