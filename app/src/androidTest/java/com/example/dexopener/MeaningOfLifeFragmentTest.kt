@@ -19,26 +19,23 @@ class MeaningOfLifeFragmentTest {
 
     @Test
     fun meaningOfLifeShouldBeDisplayed() {
-        val userInteraction = mockk<() -> Unit>(relaxed = true)
+        val userInteraction = mockk<MeaningOfLifeUserInteraction>(relaxed = true)
         val stringToDisplay = "Hello World"
 
         launchMeaningOfLifeFragment(stringToDisplay, userInteraction)
         onView(withText(stringToDisplay)).check(ViewAssertions.matches(isCompletelyDisplayed()))
         onView(withText("User interaction")).perform(ViewActions.click())
-        verify { userInteraction.invoke() }
+        verify { userInteraction.onUserInteraction() }
     }
 
     private fun launchMeaningOfLifeFragment(
         stringToDisplay: String,
-        userInteraction: () -> Unit
+        fakeMeaningOfLifeUserInteraction: MeaningOfLifeUserInteraction
     ) {
         launchFragmentInContainer {
             MeaningOfLifeFragment(object : MeaningOfLifeViewModel() {
+                override val meaningOfLifeUserInteraction: MeaningOfLifeUserInteraction = fakeMeaningOfLifeUserInteraction
                 override val meaningOfLife: LiveData<String> = liveData { emit(stringToDisplay) }
-
-                override fun onUserInteraction() {
-                    userInteraction()
-                }
             })
         }
     }
